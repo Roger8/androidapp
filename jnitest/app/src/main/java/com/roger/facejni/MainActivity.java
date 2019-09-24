@@ -52,15 +52,25 @@ public class MainActivity extends AppCompatActivity {
 
                 t1.setText("hhhhhh");
                 faceact.Helloworld();
-                String out = FaceAction.Estimateaction();
+                float [] landmarks = new float[106*2];
+
+                for(int i=0;i<106;i++){
+
+                    landmarks[i*2] = i;
+                    landmarks[i*2+1] = i*2f;
+                }
+
+                String out = FaceAction.Estimateaction(landmarks);
                 t1.setText(out);
+
+                int[] angles = new int[3];
+                angles = FaceAction.EstimatePoseAngle(landmarks);
+//                System.console().printf("yaw: %d, pitch: %d, roll: %d \n", angles[0], angles[1], angles[2]);
             }
 
         });
 
     }
-
-
 
 
 }

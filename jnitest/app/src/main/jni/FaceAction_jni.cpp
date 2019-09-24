@@ -25,12 +25,29 @@ Java_com_roger_facejni_FaceAction_Helloworld(JNIEnv *env, jobject instance) {
    }
 
 JNIEXPORT jstring JNICALL
-Java_com_roger_facejni_FaceAction_Estimateaction(JNIEnv *env, jobject instance) {
-    int mks[106*2];
+Java_com_roger_facejni_FaceAction_Estimateaction(JNIEnv *env, jobject instance, jfloatArray landmarks) {
+    jfloat * mrks = env->GetFloatArrayElements(landmarks,NULL);
+    float * facelandmarks = mrks;
+
     string out ;
-    out = faceact->estimateaction(mks);
-    jstring result = (env)->NewStringUTF("ok jni");
+    out = faceact->estimateaction(facelandmarks);
+    jstring result = (env)->NewStringUTF(out.data());
     return result;
+}
+
+JNIEXPORT jintArray JNICALL
+Java_com_roger_facejni_FaceAction_EstimatePoseAngle(JNIEnv *env, jobject instance, jfloatArray landmarks) {
+    jfloat * mrks = env->GetFloatArrayElements(landmarks,NULL);
+    float * facelandmarks = mrks;
+
+    int yaw_pitch_roll[3];
+    faceact->estimateYawPitchRoll(facelandmarks, yaw_pitch_roll);
+
+    int angles[] = {(int)round(yaw_pitch_roll[0]), (int)round(yaw_pitch_roll[1]), (int)round(yaw_pitch_roll[2])};
+    jintArray yawpitchroll = env->NewIntArray(3);
+    env->SetIntArrayRegion(yawpitchroll, 0, 3, angles);
+
+    return yawpitchroll;
 }
 
 }
