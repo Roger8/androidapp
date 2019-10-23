@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">cam</string>
+    <string name="camera_error">camera_error</string>
+    <string name="action_settings">Settings</string>
+    <string name="request_permission">request permission</string>
+    <string name="intro_message">switch camera</string>
+</resources>
